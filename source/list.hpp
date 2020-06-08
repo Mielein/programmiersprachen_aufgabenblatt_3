@@ -129,9 +129,9 @@ class List {
     // not fully implemented yet
     /* list constructor and inilisation list */
     List():
-    first_{nullptr},
-    last_{nullptr},
-    size_{0}{}
+      size_{0},
+      first_{nullptr},
+      last_{nullptr}{}
     
 
     // test and implement:
@@ -203,56 +203,105 @@ class List {
     //TODO: member function reverse (Aufgabe 3.7 - Teil 1)
 
 
-    /* ... */
+    /* inserts an element to the beginning */
     void push_front(T const& element) {
-      // TODO: push_front-method (Aufgabe 3.3)
+      ListNode<T>* newFront = new ListNode<T>{element};
+      if(empty()){
+        first_ = newFront;
+        last_ = newFront;
+        first_->prev = nullptr;
+        last_->next = nullptr;
+      }
+      else{
+        first_->prev = newFront;
+        newFront->next = first_;
+        newFront->prev = nullptr;
+        first_ = newFront;
+        last_->next = nullptr;
+      }
+      ++size_;
     }
 
-    /* ... */
+    /* adds an element to the end  */
     void push_back(T const& element) {
-      // TODO: push_back-method (Aufgabe 3.3)
+      ListNode<T>* newBack = new ListNode<T>{element};
+      if(empty()){
+        first_ = newBack;
+        last_ = newBack;
+        first_->prev = nullptr;
+        last_->next = nullptr;
+      }
+      else{
+        last_->next = newBack;
+        newBack->prev = last_;
+        newBack->next = nullptr;
+        last_ = newBack;
+        first_->prev = nullptr;
+      }
+      ++size_;
     }
 
-    /* ... */
+    /* removes the first element */
     void pop_front() {
       if(empty()) {
         throw "List is empty";
       }
-
-      // TODO: remainder of pop_front-method (Aufgabe 3.3)
+      if(size_ == 1){
+        delete first_;
+        first_ = nullptr;
+        last_ = first_;
+      }
+      else{
+        ListNode<T>* noFront = new ListNode<T>{};
+        noFront =first_->next;
+        delete first_;
+        first_ = noFront;
+        noFront->prev = nullptr;
+        last_->next = nullptr;
+      }
+      --size_;
     }
 
-    /* ... */
+    /* removes the last element */
     void pop_back() {
       if(empty()) {
         throw "List is empty";
       }
-
-      // TODO: remainder of pop_back-method (Aufgabe 3.3)
+      if(size_ == 1){
+        delete first_;
+        first_ = nullptr;
+        last_ = first_;
+      }
+      else{
+        ListNode<T>* noBack = new ListNode<T>{};
+        noBack = last_->prev;
+        delete last_;
+        last_ = noBack;
+        noBack->next = nullptr;
+        first_->prev = nullptr;
+      }
+      --size_;
     }
 
-    /* ... */
-    T& front() {
+    /* access the first element  */
+    T& front() const{
       if(empty()) {
         throw "List is empty";
       }
-
-      // TODO: remainder of front-method (Aufgabe 3.3)
+      return first_->value;
     }
 
-    /* ... */
-    T& back() {
+    /* access the last element */
+    T& back() const{
       if(empty()) {
         throw "List is empty";
       }
-
-      // TODO: remainder of back-method (Aufgabe 3.3)
+      return last_->value;
     }
 
     /* checks if the list contains elements */
     bool empty() const {
-      if(size_== 0)
-      return true;
+      return size_== 0;
     };
 
 
