@@ -127,9 +127,12 @@ class List {
     using iterator        = ListIterator<T>;
 
     // not fully implemented yet
-    // TODO: do not forget about the initialiser list! (Aufgabe 3.2)
-    /* ... */
-    List() {}
+    /* list constructor and inilisation list */
+    List():
+    first_{nullptr},
+    last_{nullptr},
+    size_{0}{}
+    
 
     // test and implement:
     //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 3.5)
@@ -246,18 +249,16 @@ class List {
       // TODO: remainder of back-method (Aufgabe 3.3)
     }
 
-    /* ... */
+    /* checks if the list contains elements */
     bool empty() const {
-
-      // TODO: empty-method (Aufgabe 3.2)
-      return false;
+      if(size_== 0)
+      return true;
     };
 
 
-    /* ... */
-    std::size_t size() const{
-      // TODO: size-method (Aufgabe 3.2)      
-      return 27;
+    /* Returns number of elements in list */
+    std::size_t size() const{   
+      return size_;
   };
 
 
