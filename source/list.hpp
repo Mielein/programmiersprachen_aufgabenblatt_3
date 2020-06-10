@@ -168,10 +168,11 @@ class List {
       // make use of operator==
     }
 
-    /* ... */
+    /* called when the lifetime of an object ends
+     purpose  is to free  resources that object may have acquired during its lifetime. */
     ~List() {
-      //TODO: Implement via clear-Method (Aufgabe 3.4)
-    } //can not really be tested
+      clear();
+    }
 
     /* ... */
     ListIterator<T> begin() {
@@ -187,10 +188,12 @@ class List {
       return {};
     }
 
-    /* ... */ 
-    // test and implement:
-    //TODO: clear()-Method (Aufgabe 3.4)
-
+    /* clears the contents */ 
+    void clear(){
+      while(!empty()){
+        pop_front();
+      }
+    }
 
     /* ... */
     //TODO: member function insert (Aufgabe 3.13)
@@ -209,15 +212,11 @@ class List {
       if(empty()){
         first_ = newFront;
         last_ = newFront;
-        first_->prev = nullptr;
-        last_->next = nullptr;
       }
       else{
         first_->prev = newFront;
         newFront->next = first_;
-        newFront->prev = nullptr;
         first_ = newFront;
-        last_->next = nullptr;
       }
       ++size_;
     }
@@ -228,15 +227,11 @@ class List {
       if(empty()){
         first_ = newBack;
         last_ = newBack;
-        first_->prev = nullptr;
-        last_->next = nullptr;
       }
       else{
         last_->next = newBack;
         newBack->prev = last_;
-        newBack->next = nullptr;
         last_ = newBack;
-        first_->prev = nullptr;
       }
       ++size_;
     }
@@ -252,12 +247,10 @@ class List {
         last_ = first_;
       }
       else{
-        ListNode<T>* noFront = new ListNode<T>{};
-        noFront =first_->next;
+        auto noFront = first_->next;
         delete first_;
         first_ = noFront;
         noFront->prev = nullptr;
-        last_->next = nullptr;
       }
       --size_;
     }
@@ -273,12 +266,10 @@ class List {
         last_ = first_;
       }
       else{
-        ListNode<T>* noBack = new ListNode<T>{};
-        noBack = last_->prev;
+        auto noBack = last_->prev;
         delete last_;
         last_ = noBack;
         noBack->next = nullptr;
-        first_->prev = nullptr;
       }
       --size_;
     }

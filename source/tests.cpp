@@ -26,7 +26,8 @@ ListNode<T>* get_last_pointer(List<T> const& list_to_test) {return list_to_test.
 #include "sub_tests/pop_front.test"
 #include "sub_tests/pop_back.test"
 
-//test case definitions for 
+//test case definitions for clear method of list
+#include "sub_tests/clear.test"
 
 //test cases for element access of list
 #include "sub_tests/front.test"

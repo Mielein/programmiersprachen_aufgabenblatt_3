@@ -1,0 +1,31 @@
+TEST_CASE("remove all elements with clear", "[list_clear]") {
+  List<int> list{};
+
+  list.push_back( 9);
+  list.push_back( 1);
+  list.push_back(-7);
+  list.clear();
+
+  auto first_pointer = get_first_pointer(list);
+  auto last_pointer  = get_last_pointer(list); 
+
+    SECTION("first_ and last_ should be nullptrs") {
+      REQUIRE(nullptr == first_pointer);
+      REQUIRE(nullptr == last_pointer);
+    }
+
+    SECTION("the links between nodes are set correctly") {
+      REQUIRE(nullptr == first_pointer);
+      REQUIRE(nullptr == last_pointer);
+      REQUIRE(first_pointer == last_pointer);
+    }
+    
+    SECTION("empty should be true") {
+      REQUIRE(list.empty() == true);
+    }
+
+    SECTION("the list has size 0") {
+      REQUIRE(0 == get_size(list));
+    }
+
+}
