@@ -126,7 +126,6 @@ class List {
     using const_reference = T const&;
     using iterator        = ListIterator<T>;
 
-    // not fully implemented yet
     /* list constructor and inilisation list */
     List():
       size_{0},
@@ -134,8 +133,17 @@ class List {
       last_{nullptr}{}
     
 
-    // test and implement:
-    //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 3.5)
+    /* copy constructer using Deep-Copy semantic */
+    List(List<T> const& l):
+      size_{0},
+      first_{nullptr},
+      last_{nullptr}{
+      ListNode<T>* tmp = l.first_;
+      while(tmp != nullptr){
+        push_back(tmp->value);
+        tmp = tmp->next;    
+      }
+    }
 
     // test and implement:
     // TODO: Move-Konstruktor (Aufgabe 3.9)
@@ -146,9 +154,6 @@ class List {
     List(std::initializer_list<T> ini_list) {
       //not implemented yet
     }
-
-    // test and implement:
-    //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 3.5)
 
     /* ... */
     // test and implement:

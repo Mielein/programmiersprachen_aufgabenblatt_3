@@ -1,0 +1,12 @@
+TEST_CASE("copy constructed list", "[list_copy_construction]") {
+  List<int> list{};
+  list.push_back(-1);
+  list.push_back(3);
+  list.push_back(5);
+  
+  List<int> listCopy{list};
+  
+  REQUIRE(get_size(listCopy) == get_size(list));
+  REQUIRE(get_first_pointer(listCopy) == get_first_pointer(list));
+  REQUIRE(get_last_pointer(listCopy) == get_last_pointer(list));
+}
