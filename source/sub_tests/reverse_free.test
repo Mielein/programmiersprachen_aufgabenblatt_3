@@ -1,0 +1,26 @@
+TEST_CASE("reversed list free function", "[list_reversed_freefunction]") {
+//freie Funktion test
+
+  List<int> list_new{};
+  list_new.push_back(-1);
+  list_new.push_back(3);
+  list_new.push_back(5);
+  list_new.push_back(7);
+
+  List<int> list_rev = reverse(list_new);
+
+  auto first_pointer_rev = get_first_pointer(list_rev);
+  auto last_pointer_rev  = get_last_pointer(list_rev);
+
+  //should have the same size
+  REQUIRE(get_size(list_new) == get_size(list_rev));
+  //last element needs to be first element
+  REQUIRE(last_pointer_rev->value == -1);
+  //first element needs to be last element
+  REQUIRE(first_pointer_rev->value == 7);
+  //first prev should be nullptr
+  REQUIRE(first_pointer_rev->prev == nullptr);
+  //last next should be nullptr
+  REQUIRE(last_pointer_rev->next == nullptr);
+
+}

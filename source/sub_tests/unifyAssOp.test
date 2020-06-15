@@ -1,0 +1,22 @@
+TEST_CASE("unifying assignment operator", "[list_=operator]") {
+  List<int> list{};
+
+  list.push_back( 9);
+  list.push_back( 1);
+  list.push_back(-7);
+
+  List<int> uni = list;
+
+  auto first_pointer = get_first_pointer(uni);
+  auto last_pointer  = get_last_pointer(uni); 
+
+  auto first_pointer_uni = get_first_pointer(list);
+  auto last_pointer_uni  = get_last_pointer(list);   
+
+  SECTION("lists should be identical") {
+    REQUIRE(get_size(uni) == get_size(list));
+    REQUIRE(first_pointer_uni->value == first_pointer->value);
+    REQUIRE(last_pointer_uni->value == last_pointer->value);
+  }
+
+}

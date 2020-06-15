@@ -1,0 +1,24 @@
+TEST_CASE("reversed list", "[list_reversed]") {
+  List<int> list{};
+  list.push_back(-1);
+  list.push_back(3);
+  list.push_back(5);
+  list.push_back(7);
+  
+  //member Funktion test
+  List<int> listRev{list};
+  listRev.reverse();
+  auto first_pointer = get_first_pointer(listRev);
+  auto last_pointer  = get_last_pointer(listRev); 
+  
+  //size needs to be same as original
+  REQUIRE(get_size(listRev) == get_size(list));
+  //last element needs to be first element
+  REQUIRE(last_pointer->value == -1);
+  //first element needs to be last element
+  REQUIRE(first_pointer->value == 7);
+  //first prev should be nullptr
+  REQUIRE(first_pointer->prev == nullptr);
+  //last next should be nullptr
+  REQUIRE(last_pointer->next == nullptr);
+}
