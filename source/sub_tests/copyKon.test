@@ -6,7 +6,13 @@ TEST_CASE("copy constructed list", "[list_copy_construction]") {
   
   List<int> listCopy{list};
   
+  auto first_pointer_copy = get_first_pointer(listCopy);
+  auto last_pointer_copy  = get_last_pointer(listCopy); 
+
+  auto first_pointer = get_first_pointer(list);
+  auto last_pointer  = get_last_pointer(list); 
+
   REQUIRE(get_size(listCopy) == get_size(list));
-  REQUIRE(get_first_pointer(listCopy) == get_first_pointer(list));
-  REQUIRE(get_last_pointer(listCopy) == get_last_pointer(list));
+  REQUIRE(first_pointer_copy->value == first_pointer->value);
+  REQUIRE(last_pointer_copy->value == last_pointer->value);
 }

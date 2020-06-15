@@ -155,9 +155,12 @@ class List {
       //not implemented yet
     }
 
-    /* ... */
-    // test and implement:
-    //TODO: (unifying) Assignment operator (Aufgabe 3.6)
+    /* assigns values to the container  */
+    //memberfunction page 11 vorlesung 7
+    List<T>& operator=(List<T> rhs){
+      swap(rhs);
+      return *this;
+    }
 
     /* ... */
     // test and implement:
@@ -206,9 +209,21 @@ class List {
     /* ... */
     //TODO: member function insert (Aufgabe 3.14)
 
-    /* ... */
-
-    //TODO: member function reverse (Aufgabe 3.7 - Teil 1)
+    /* changes the sequence of the list */
+    void reverse(){
+      if(size_ <  2){
+        return;
+      }
+      else{
+        std::swap(first_,last_);  
+        ListNode<T>* tmp = first_;
+        std::swap(tmp->next,tmp->prev);
+        while(tmp->next != nullptr){
+          tmp = tmp->next;
+          std::swap(tmp->next,tmp->prev);
+        }    
+      }
+    }  
 
 
     /* inserts an element to the beginning */
@@ -306,6 +321,11 @@ class List {
       return size_;
   };
 
+    /* inisilation of swap for the unifying assignment operator */
+    void swap(List<T>& rhs){
+      std::swap(first_,rhs.first_);
+      std::swap(last_, rhs.last_);
+    } 
 
   // list members
   private: 
@@ -314,9 +334,14 @@ class List {
     ListNode<T>* last_;
 };
 
-/* ... */
-//TODO: Freie Funktion reverse 
-//(Aufgabe 3.7 - Teil 2, benutzt Member-Funktion reverse)
+/* changes the sequence of the list */
+template<typename T> 
+List<T> reverse(List<T> const& list){
+  auto tmp{list};
+  tmp.reverse();
+  return tmp;
+}
+
 
 /* ... */
 //TODO: Freie Funktion operator+ (3.10 - Teil 2)
