@@ -162,18 +162,27 @@ class List {
       return *this;
     }
 
-    /* ... */
-    // test and implement:
-
-    bool operator==(List const& rhs)
-    {
-      //TODO: operator== (Aufgabe 3.8)
+    /* checks if the contents of lhs and rhs are equal */
+    bool operator==(List const& rhs){
+      if(size_ == rhs.size_){
+        auto tmp{first_};
+        auto tmp_r{rhs.first_};
+        while(nullptr != tmp){
+          if(tmp->value != tmp_r->value){
+            return false;
+          }
+          tmp = (*tmp).next;
+          tmp_r = (*tmp_r).next;
+        } 
+        return true;      
+      }
+      else{
+       return false;  
+      }
     }
 
-    bool operator!=(List const& rhs)
-    {
-      //TODO: operator!= (Aufgabe 3.8)
-      // make use of operator==
+    bool operator!=(List const& rhs){
+      return !(*this == rhs);
     }
 
     /* called when the lifetime of an object ends

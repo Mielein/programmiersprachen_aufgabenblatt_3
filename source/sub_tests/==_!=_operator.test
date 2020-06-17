@@ -1,0 +1,28 @@
+TEST_CASE("== and != operator for lhs and rhs", "[list_==_!=_operator]") {
+
+  List<int> lhs{};
+  lhs.push_back(-1);
+  lhs.push_back(3);
+  lhs.push_back(5);
+  lhs.push_back(7);
+
+  List<int> rhs{lhs};
+
+  List<int> rhs2{};
+  rhs2.push_back(-1);
+  rhs2.push_back(3);
+  rhs2.push_back(5);
+  rhs2.push_back(-7);
+  rhs2.push_back(-7);
+
+
+  //should be the same
+  REQUIRE(lhs == rhs);
+  REQUIRE(lhs.size() == rhs.size());
+
+
+  //should not be the same
+  REQUIRE(lhs != rhs2);
+  REQUIRE(lhs.size() != rhs2.size());
+
+}

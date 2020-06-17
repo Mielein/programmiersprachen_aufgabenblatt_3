@@ -28,6 +28,9 @@ ListNode<T>* get_last_pointer(List<T> const& list_to_test) {return list_to_test.
 #include "sub_tests/reverse.test"
 #include "sub_tests/reverse_free.test"
 
+//test case definitions for == and != operator
+#include "sub_tests/==_!=_operator.test"
+
 //test case definitions for push methods of list
 #include "sub_tests/push_front.test"
 #include "sub_tests/push_back.test"
