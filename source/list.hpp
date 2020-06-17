@@ -30,25 +30,22 @@ struct ListIterator {
   using iterator_category = std::bidirectional_iterator_tag;
 
 
-  /* DESCRIPTION  operator*() */
+  /* derefenciation of iterator using operator* */
   T&  operator*()  const {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-
-    //TODO: remaining implementation of derefenciation of 
-    //      iterator using operator* (Aufgabe 3.12 - Teil 1)
+    return node->value;
 
   } //call *it
 
-  /* DESCRIPTION  operator->() */
+  /* derefenciation of iterator using operator-> */
   T* operator->() const {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
+    return &node->value;
 
-    //TODO: remaining implementation of derefenciation of 
-    //      iterator using operator-> (Aufgabe 3.12 - Teil 2)
   }  //call it->method() or it->member
 
 
@@ -57,9 +54,7 @@ struct ListIterator {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-
-    //TODO: Implement Postincrement-Operation for Iterator
-    //      (Aufgabe 3.12 - Teil 3)
+    return node->next;
     
   }
 
@@ -70,26 +65,20 @@ struct ListIterator {
       throw "Iterator does not point to valid node";
     }
 
-    //TODO: Implement Postincrement-Operation for Iterator
-    //      (Aufgabe 3.12 - Teil 4)
+    return node->next;
 
   }
 
 
-  /* ... */
+  /* Equality-Operation for Iterator
+   Iterators should be the same if they refer to the same node*/
   bool operator==(ListIterator<T> const& x) const {
-    //TODO: Implement Equality-Operation for Iterator
-    //      (Aufgabe 3.12 - Teil 5)
-    // Iterators should be the same if they refer to the same node
-    return false;
+    return node == x.node;
   } // call it: == it
 
   /* ... */
   bool operator!=(ListIterator<T> const& x) const {
-    //TODO: Implement Inequality-Operation for Iterator  
-    //      (Aufgabe 3.12 - Teil 6)
-    // Reuse operator==
-    return false;
+    return !(node == x.node);
   } // call it: != it
 
   /* Advances Iterator */
