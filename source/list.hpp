@@ -191,18 +191,18 @@ class List {
       clear();
     }
 
-    /* ... */
+    /* begin-Method returning an Iterator to the 
+       first element in the List */
     ListIterator<T> begin() {
-      //TODO: begin-Method returning an Iterator to the 
-      //      first element in the List (Aufgabe 3.11)
-      return {};
+      auto begin = first_;
+      return {begin};
     }
 
-    /* ... */
+    /* end-Method returning an Iterator to element after 
+       the last element in the List */
     ListIterator<T> end() {
-      //TODO: end-Method returning an Iterator to element after (!) 
-      //      the last element in the List (Aufgabe 3.11)
-      return {};
+      auto end = nullptr;
+      return {end};
     }
 
     /* clears the contents */ 
