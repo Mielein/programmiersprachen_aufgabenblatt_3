@@ -1,0 +1,22 @@
+TEST_CASE("insert element at specific position and erase it at position", "[list_insert_erase]") {
+  List<int> list{};
+  ListIterator<int> it;
+
+  list.push_front(9); 
+  list.push_back(13);
+  list.insert(it,3);
+
+  auto first_pointer = get_first_pointer(list);
+  auto last_pointer  = get_last_pointer(list); 
+
+  SECTION("First node should be 3 and last 13") {
+    REQUIRE(3 == first_pointer->value);
+    REQUIRE(13 == last_pointer->value);
+  }
+  ++it;
+  list.insert(it,4);
+    
+ 
+
+
+}

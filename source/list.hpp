@@ -54,7 +54,8 @@ struct ListIterator {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-    return node->next;
+    node = node->next;
+    return *this;
     
   }
 
@@ -64,9 +65,11 @@ struct ListIterator {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-
-    return node->next;
-
+    if(node->next == nullptr){
+      auto tmp = *this;
+      ++(*this);
+      return tmp;
+    }
   }
 
 
@@ -201,11 +204,39 @@ class List {
       }
     }
 
-    /* ... */
-    //TODO: member function insert (Aufgabe 3.13)
+    /* inserts node at a names position */
+    ListIterator<T> insert(ListIterator<T> const& pos, T const& element){
+      if(pos == begin()){
+        push_front(element);
+        return begin();
+      }
+      else{
+        ListNode<T>* node_at_pos = new ListNode<T>{element, pos.node->prev, pos.node};
+        pos.node->prev->next = node_at_pos;
+        pos.node->prev = node_at_pos;
+        ++size_;
+        return ListIterator<T>{node_at_pos};
+      }
+      
+    }
 
-    /* ... */
-    //TODO: member function insert (Aufgabe 3.14)
+    /* erases node at named position */
+    void erase(ListIterator<T> const& pos){
+      if(empty()){
+        throw "Iterator does not point to valid node";
+      }
+      if(pos.node == begin()){
+        pop_front();
+      }
+      else{
+        pos.node->prev->next = pos.node->next;
+        pos.node->next->prev = pos.node->prev;
+        delete pos.node;
+        --size_;
+      }
+    }
+    //TODO: member function erase (Aufgabe 3.14)
+  
 
     /* changes the sequence of the list */
     void reverse(){
