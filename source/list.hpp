@@ -4,7 +4,7 @@
 #include <cstddef>  //ptrdiff_t
 #include <iterator> //std::bidirectional_iterator_tag
 #include <iostream>
-
+#include <vector>
 #include <initializer_list>
 
 template <typename T>
@@ -18,8 +18,6 @@ struct ListNode {
 };
 
 
-//TODO: Implementierung der Methoden des Iterators 
-//      (nach Vorlesung STL-1 am 09. Juni) (Aufgabe 3.12)
 template <typename T>
 struct ListIterator {
   using Self              = ListIterator<T>;
@@ -45,8 +43,7 @@ struct ListIterator {
       throw "Iterator does not point to valid node";
     }
     return &node->value;
-
-  }  //call it->method() or it->member
+  }
 
 
   /* PREINCREMENT, call: ++it, advances one element forward */
@@ -54,9 +51,10 @@ struct ListIterator {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-    node = node->next;
-    return *this;
-    
+    else{
+      node = node->next;
+      return *this;
+    }
   }
 
   /* POSTINCREMENT (signature distinguishes the iterators), 
@@ -65,7 +63,7 @@ struct ListIterator {
     if(nullptr == node) {
       throw "Iterator does not point to valid node";
     }
-    if(node->next == nullptr){
+    else{
       auto tmp = *this;
       ++(*this);
       return tmp;
@@ -73,13 +71,14 @@ struct ListIterator {
   }
 
 
-  /* Equality-Operation for Iterator
-   Iterators should be the same if they refer to the same node*/
+  /* Equality-Operation for Iterator 
+    should be true if it is equal*/
   bool operator==(ListIterator<T> const& x) const {
     return node == x.node;
   } // call it: == it
 
-  /* ... */
+  /* Equality-Operation for Iterator
+   should be false if it is equal*/
   bool operator!=(ListIterator<T> const& x) const {
     return !(node == x.node);
   } // call it: != it
@@ -92,8 +91,6 @@ struct ListIterator {
       return ListIterator{nullptr};
     }
   }
-
-
   ListNode <T>* node = nullptr;
 };
 
@@ -137,14 +134,27 @@ class List {
       }
     }
 
-    // test and implement:
-    // TODO: Move-Konstruktor (Aufgabe 3.9)
+    /* move constructer */
+    List(List&& rhs):
+      size_(rhs.size_),
+      first_(rhs.first_),
+      last_(rhs.last_){
+        rhs.size_ = 0;
+        rhs.first_ = nullptr;
+        rhs.last_ = nullptr;
+      }
 
-    //TODO: Initializer-List Konstruktor (3.10 - Teil 1)
-    /* ... */
-    // test and implement:
-    List(std::initializer_list<T> ini_list) {
-      //not implemented yet
+    /* object of type std::initializer_list<T> 
+    is a lightweight proxy object that provides access to 
+    array of objects of type const T */
+    List(std::initializer_list<T> ini_list):
+      size_{0},
+      first_{nullptr},
+      last_{nullptr} {
+      List<int> list{};
+      for(T element : ini_list){
+        push_back(element);
+      }
     }
 
     /* assigns values to the container  */
@@ -185,16 +195,14 @@ class List {
 
     /* begin-Method returning an Iterator to the 
        first element in the List */
-    ListIterator<T> begin() {
-      auto begin = first_;
-      return {begin};
+    ListIterator<T> begin() const{
+      return ListIterator<T>{first_};
     }
 
     /* end-Method returning an Iterator to element after 
        the last element in the List */
-    ListIterator<T> end() {
-      auto end = nullptr;
-      return {end};
+    ListIterator<T> end() const{
+      return ListIterator<T>{nullptr};
     }
 
     /* clears the contents */ 
@@ -206,9 +214,16 @@ class List {
 
     /* inserts node at a names position */
     ListIterator<T> insert(ListIterator<T> const& pos, T const& element){
-      if(pos == begin()){
+      if(pos.node == nullptr && pos != end()){
+        throw "Iterator does not point to valid node";
+      }
+      else if(pos == begin()){
         push_front(element);
         return begin();
+      }
+      else if (pos == end()){
+        push_back(element);
+        return end();
       }
       else{
         ListNode<T>* node_at_pos = new ListNode<T>{element, pos.node->prev, pos.node};
@@ -216,26 +231,34 @@ class List {
         pos.node->prev = node_at_pos;
         ++size_;
         return ListIterator<T>{node_at_pos};
+      } 
+    }
+
+    /* erases node at named position */
+    ListIterator<T> erase(ListIterator<T> const& pos){
+      if(empty()){
+        throw "List is empty :(";
+      }
+      else if(pos == begin()){
+        pop_front();
+        return begin();
+      }
+      else if(pos == end()){
+        pop_back();
+        return end();
+      }
+      else{
+        auto tmp = pos.node->next;
+        pos.node->prev->next = tmp;
+        pos.node->prev = tmp->prev;
+        delete pos.node;
+
+        --size_;
+        return ListIterator<T>{tmp};
       }
       
     }
 
-    /* erases node at named position */
-    void erase(ListIterator<T> const& pos){
-      if(empty()){
-        throw "Iterator does not point to valid node";
-      }
-      if(pos.node == begin()){
-        pop_front();
-      }
-      else{
-        pos.node->prev->next = pos.node->next;
-        pos.node->next->prev = pos.node->prev;
-        delete pos.node;
-        --size_;
-      }
-    }
-    //TODO: member function erase (Aufgabe 3.14)
   
 
     /* changes the sequence of the list */
@@ -371,9 +394,29 @@ List<T> reverse(List<T> const& list){
   return tmp;
 }
 
+/* objects of list are copied into empty vector*/
+template < typename T >
+bool has_same_content(List<T> const& list ,std::vector<T> const& vec){
+  std::vector<T> copy_vec{};
+  std::copy(list.begin(), list.end(), std::back_inserter(copy_vec));
+  if(vec != copy_vec){
+    return false;
+  }
+  return true;
+}
 
-/* ... */
-//TODO: Freie Funktion operator+ (3.10 - Teil 2)
+/* combines two lists into one */
+template<typename T>
+List<T> operator+(List<T>& list1, List<T>& list2){
+  List<T> list{};
+  for(T element : list1){
+    list.push_back(element);
+  }
+  for(T element : list2){
+    list.push_back(element);
+  }
+  return list;
+}
 
 
 #endif // # define BUW_LIST_HPP

@@ -1,0 +1,11 @@
+TEST_CASE("list initilizer", "[list_initilizer]") {
+  List<int> int_list{9,5,38,100};
+
+  SECTION("test initilizer"){
+    REQUIRE(4 == get_size(int_list));
+    REQUIRE(9 == get_first_pointer(int_list)->value);
+    REQUIRE(100 == get_last_pointer(int_list)->value);
+  }
+  
+
+}

@@ -1,0 +1,40 @@
+TEST_CASE("erase element at specific position", "[list_erase]") {
+  List<int> list{};
+  
+  list.push_front(9); 
+  list.push_back(13);
+  list.push_back(3);
+  list.push_back(7);
+
+  auto begin_it{list.begin()};
+
+  ListIterator<int> it{list.begin()};
+  ListIterator<int> it1{list.end()}; 
+
+  //ERASE TEST 
+  SECTION("First node should be 9") {
+    REQUIRE(9 == begin_it.node->value);
+    REQUIRE(9 == get_first_pointer(list)->value);
+  }
+
+  //deleting first element 
+  
+  list.erase(it);
+  auto new_begin_it = list.begin();
+
+  SECTION("First node should be 13") {
+    REQUIRE(13 == new_begin_it.node->value);
+    REQUIRE(13 == get_first_pointer(list)->value);
+  }
+
+/*   //deleting last element
+  
+  list.erase(it1);
+  auto last_it = list.end();
+
+  SECTION("last node should be 3"){
+    REQUIRE(3 == last_it.node->value);
+    REQUIRE(3 == get_last_pointer(list)->value);
+  } */
+
+}

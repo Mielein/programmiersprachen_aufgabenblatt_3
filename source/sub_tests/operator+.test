@@ -1,0 +1,13 @@
+TEST_CASE("list initilizer operator+", "[list_initilizer_operator+]") {
+  List<int> int_list{9,5,38,100};
+  List<int> list1{9,5};
+  List<int> list2{38,100};
+  List<int> com_list = operator+(list1, list2);
+
+  SECTION("test initilizer"){
+    REQUIRE(get_size(com_list) == get_size(int_list));
+    REQUIRE(get_first_pointer(com_list)->value == get_first_pointer(int_list)->value);
+    REQUIRE(get_last_pointer(com_list)->value == get_last_pointer(int_list)->value);
+  }
+  
+}

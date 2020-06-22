@@ -1,0 +1,20 @@
+TEST_CASE("compare content of list and value", "[list_vec_compare]") {
+  List<int> list{};
+  
+  list.push_front(9); 
+  list.push_back(13);
+  list.push_back(3);
+  list.push_back(7);
+
+  std::vector<int> vec{9, 13, 3, 7};
+  std::vector<int> vec_false{3, 13, 3, 7};
+
+  SECTION("vec and list should be the same"){
+    REQUIRE(has_same_content(list, vec)== true);
+  }
+
+    SECTION("vec_false and list should not be the same"){
+    REQUIRE(has_same_content(list, vec_false)== false);
+  }
+  
+}
